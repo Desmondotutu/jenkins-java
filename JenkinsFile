@@ -18,7 +18,7 @@ pipeline {
     stage('Static Code Analysis') {
 
       steps {
-        withSonarqubeEn('sonarServer') {
+        withSonarQubeEnv('sonarServer') {
           sh 'mvn sonar:sonar -Dsonar.projectkey=tester-project'
         }
       }
