@@ -1,20 +1,27 @@
 pipeline {
-  agent any
-
-  stages {
-    stage('Checkout') {
-      steps {
-        sh 'echo passed'
-        //git branch: 'main', url: 'https://github.com/Desmondotutu/jenkins-java.git'
-      }
+ agent {
+        docker {
+            image 'maven:3.9.0-eclipse-temurin-11'
+            args '-v /root/.m2:/root/.m2'
+        }
     }
-    stage('Build and Test') {
-
-      steps {
-        // build the project and create a JAR file
-        sh 'mvn clean package'
-      }
-    }
+    stages {
+        stage('Checkout') {
+            steps {
+                sh 'echo passed'
+                //git branch: 'main', url: 'https://github.com/Desmondotutu/jenkins-java.git'
+             }
+        }
+        stage('Build') {
+            steps {
+                sh 'mvn -B -DskipTests clean package'
+            }
+        }
+        stage('Test') { 
+            steps {
+                sh 'mvn test' 
+            }
+        }
     stage('Static Code Analysis') {
 
       steps {
