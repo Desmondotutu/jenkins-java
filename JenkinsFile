@@ -5,6 +5,7 @@ pipeline {
             args '-v /root/.m2:/root/.m2'
         }
     }
+    scannerHome = tool 'sonarscan'
     stages {
         stage('Checkout') {
             steps {
@@ -26,7 +27,7 @@ pipeline {
 
       steps {
         withSonarQubeEnv('sonarServer') {
-          sh 'mvn sonar:sonar -Dsonar.projectkey=tester-project'
+          sh '${scannerHome}/bin/sonar-scanner -Dsonar.projectkey=tester-project'
         }
       }
     }
