@@ -9,8 +9,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                sh 'echo passed'
-                //git branch: 'main', url: 'https://github.com/Desmondotutu/jenkins-java.git'
+                git branch: 'main', url: 'https://github.com/Desmondotutu/jenkins-java.git'
              }
         }
         stage('Build') {
