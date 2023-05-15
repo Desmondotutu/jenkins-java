@@ -2,7 +2,7 @@ pipeline {
  agent any
    environment{
     scannerHome = tool 'SonarScanner'
-    mvn = tool 'Default Maven'
+    mvn = tool 'maven'
     DOCKER_IMAGE = "desmondo1/express:${BUILD_NUMBER}"
         // DOCKERFILE_LOCATION = "Dockerfile"
     REGISTRY_CREDENTIALS = credentials('docker-cred')
