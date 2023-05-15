@@ -1,7 +1,10 @@
 pipeline {
  agent any
    environment{
-    SCANNER_HOME = tool 'sonarscan'
+    scannerHome = tool 'SonarScanner'
+    DOCKER_IMAGE = "desmondo1/express:${BUILD_NUMBER}"
+        // DOCKERFILE_LOCATION = "Dockerfile"
+    REGISTRY_CREDENTIALS = credentials('docker-cred')
     }
     stages {
         stage('Checkout') {
@@ -31,16 +34,11 @@ pipeline {
 
       steps {
         withSonarQubeEnv('sonarServer') {
-          sh '$SCANNER_HOME/bin/sonar-scanner -Dsonar.projectkey=tester-project'
+          sh "${scannerHome}/bin/sonar-scanner"
         }
       }
     }
     stage('Build and Push Docker Image') {
-      environment {
-        DOCKER_IMAGE = "desmondo1/express:${BUILD_NUMBER}"
-        // DOCKERFILE_LOCATION = "Dockerfile"
-        REGISTRY_CREDENTIALS = credentials('docker-cred')
-      }
       steps {
         script {
             sh 'docker build -t ${DOCKER_IMAGE} .'
