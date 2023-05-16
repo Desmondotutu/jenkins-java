@@ -1,11 +1,8 @@
 pipeline {
  agent any
    environment{
-    scannerHome = tool 'SonarScanner'
     mvn = tool 'maven3'
     DOCKER_IMAGE = "desmondo1/express:${BUILD_NUMBER}"
-        // DOCKERFILE_LOCATION = "Dockerfile"
-    REGISTRY_CREDENTIALS = credentials('docker-cred')
     }
     stages {
         stage('Checkout') {
@@ -34,8 +31,7 @@ pipeline {
 
       steps {
         withSonarQubeEnv('sonarServer') {
-          sh "{scannerHome}/bin/sonar-scanner"
-          sh "mvn sonar:sonar"
+          sh "mvn sonar:sonar -Dsonar.projectKey=maven-project"
         }
       }
     }
