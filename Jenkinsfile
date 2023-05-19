@@ -20,14 +20,14 @@ pipeline {
                 sh 'mvn test' 
             }
         }
-     /*   stage('Dependency Check') {
+      stage('Dependency Check') {
 
       steps {
         dependencyCheck additionalArguments: ' --scan ./', odcInstallation: 'DP-Check' 
         dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
       }
     }
-    */
+    
     stage('Static Code Analysis') {
 
       steps {
