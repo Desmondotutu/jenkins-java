@@ -30,8 +30,8 @@ pipeline {
     stage('Static Code Analysis') {
 
       steps {
-        withSonarQubeEnv('SonarServerAWS') {
-          sh "mvn sonar:sonar -Dsonar.projectKey=tester-project"
+        withSonarQubeEnv('sonarServer9.9') {
+          sh "mvn sonar:sonar -Dsonar.projectKey=maven-project"
         }
       }
     }
