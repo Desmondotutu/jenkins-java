@@ -43,7 +43,7 @@ docker build -t ultimate-cicd-pipeline:v1 .
 docker run -d -p 8010:8080 -t ultimate-cicd-pipeline:v1
 ```
 
-Hurray !! Access the application on `http://<ip-address>:8010`
+Access the application on `http://<ip-address>:8010`
 
 
 ## Next Steps
@@ -53,13 +53,14 @@ Hurray !! Access the application on `http://<ip-address>:8010`
 ```
 adduser sonarqube
 wget https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-9.4.0.54424.zip
-unzip *
-chmod -R 755 /home/sonarqube/sonarqube-9.4.0.54424
-chown -R sonarqube:sonarqube /home/sonarqube/sonarqube-9.4.0.54424
+unzip * -d /home/sonarqube
+sudo chmod -R 755 /home/sonarqube/sonarqube-9.4.0.54424
+sudo chown -R sonarqube:sonarqube /home/sonarqube/sonarqube-9.4.0.54424
+su - sonarqube
 cd sonarqube-9.4.0.54424/bin/linux-x86-64/
 ./sonar.sh start
 ```
 
-Hurray !! Now you can access the `SonarQube Server` on `http://<ip-address>:9000` 
+Now you can access the `SonarQube Server` on `http://<ip-address>:9000`. Ensure to grant firewall access on port 9000 in order to access the server.
 
 
