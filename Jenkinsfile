@@ -2,6 +2,7 @@ pipeline {
  agent any
    environment{
     mvn = tool 'maven3'
+    DependencyCheck = tool 'DP-Check'
     DOCKER_IMAGE = "desmondo1/express:${BUILD_NUMBER}"
     }
     stages {
@@ -23,8 +24,7 @@ pipeline {
       stage('Dependency Check') {
 
       steps {
-        dependencyCheck additionalArguments: ' --scan ./', odcInstallation: 'DP-Check' 
-        dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
+        sh "${DependencyCheck}/bin/dependency-check.sh --scan . dependencyCheckPublisher pattern: '**/dependency-check-report.xml'"
       }
     }
     
