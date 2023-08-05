@@ -45,8 +45,11 @@ pipeline {
     }
      stage('Scan Docker Image') {
         steps {
-           sh "trivy image ${DOCKER_IMAGEE}:${BUILD_NUMBER}"
+         script{
+          def dockerImage = docker.image("${DOCKER_IMAGE}")
+           sh "trivy image dockerImage}"
             }
+        }
         }
      stage('Push Docker Image') {
       steps {
