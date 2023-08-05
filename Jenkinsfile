@@ -32,7 +32,7 @@ pipeline {
 
       steps {
         withSonarQubeEnv('SonarqubeServer10') {
-          sh "${mvn}/bin/mvn clean verify sonar:sonar -Dsonar.projectKey=java"
+          sh "${mvn}/bin/mvn clean verify sonar:sonar -Dsonar.projectKey=jenkins-java"
         }
       }
     }
