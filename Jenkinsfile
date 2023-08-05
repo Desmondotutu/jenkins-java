@@ -39,7 +39,18 @@ pipeline {
     stage('Build and Push Docker Image') {
       steps {
         script {
-            sh 'docker build -t ${DOCKER_IMAGE} .'
+            sh "docker build -t ${DOCKER_IMAGE} ."
+        }
+      }
+    }
+     stage('Scan Docker Image') {
+        steps {
+           sh "trivy image ${DOCKER_IMAGEE}:${BUILD_NUMBER}"
+            }
+        }
+     stage('Build and Push Docker Image') {
+      steps {
+        script {
             def dockerImage = docker.image("${DOCKER_IMAGE}")
             docker.withRegistry('https://hub.docker.com/repository/docker/desmondo1/express', "dockerhub_creds") {
                 dockerImage.push()
