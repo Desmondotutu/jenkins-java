@@ -36,7 +36,7 @@ pipeline {
         }
       }
     }
-    stage('Build and Push Docker Image') {
+    stage('Build Docker Image') {
       steps {
         script {
             sh "docker build -t ${DOCKER_IMAGE} ."
@@ -48,7 +48,7 @@ pipeline {
            sh "trivy image ${DOCKER_IMAGEE}:${BUILD_NUMBER}"
             }
         }
-     stage('Build and Push Docker Image') {
+     stage('Push Docker Image') {
       steps {
         script {
             def dockerImage = docker.image("${DOCKER_IMAGE}")
