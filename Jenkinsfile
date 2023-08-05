@@ -47,7 +47,7 @@ pipeline {
         steps {
          script{
           def dockerImage = docker.image("${DOCKER_IMAGE}")
-           sh "trivy image dockerImage}"
+           sh "trivy image ${dockerImage}"
             }
         }
         }
