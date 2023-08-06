@@ -6,11 +6,6 @@ pipeline {
     DOCKER_IMAGE = "desmondo1/express:${BUILD_NUMBER}"
     }
     stages {
-        stage('Checkout') {
-            steps {
-                git branch: 'main', url: 'https://github.com/Desmondotutu/jenkins-java.git'
-             }
-        }
         stage('Build') {
             steps {
                 sh 'mvn -B -DskipTests clean package'
@@ -52,11 +47,11 @@ pipeline {
         }
      stage('Push Docker Image') {
       steps {
-        script {
-            docker.withRegistry('docker.io/desmondo1/express', "dockerhub_creds") {
-                sh "docker push ${DOCKER_IMAGE}"
-            }
-        }
+           script{
+             withDockerRegistry(credentialsId: 'dockerHubCredentials'){
+             sh "docker push ${DOCKER_IMAGE}"
+              }
+          }
       }
     }
      /*
