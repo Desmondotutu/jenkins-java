@@ -53,8 +53,8 @@ pipeline {
      stage('Push Docker Image') {
       steps {
         script {
-            docker.withRegistry('https://hub.docker.com/repository/docker/desmondo1/express', "dockerhub_creds") {
-                dockerImage.push()
+            docker.withRegistry('docker.io/desmondo1/express', "dockerhub_creds") {
+                sh "docker push ${DOCKER_IMAGE}"
             }
         }
       }
