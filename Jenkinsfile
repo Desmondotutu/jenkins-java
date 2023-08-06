@@ -46,8 +46,7 @@ pipeline {
      stage('Scan Docker Image') {
         steps {
          script{
-          def dockerImage = docker.image("${DOCKER_IMAGE}")
-           sh "trivy image ${dockerImage}"
+           sh "trivy image desmondo1/express:${BUILD_NUMBER}"
             }
         }
         }
