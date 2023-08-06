@@ -46,7 +46,7 @@ pipeline {
      stage('Scan Docker Image') {
         steps {
          script{
-           sh "trivy image desmondo1/express:${BUILD_NUMBER}"
+           sh "trivy image ${DOCKER_IMAGE}"
             }
         }
         }
