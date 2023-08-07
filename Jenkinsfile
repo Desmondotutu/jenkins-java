@@ -6,6 +6,12 @@ pipeline {
     DOCKER_IMAGE = "desmondo1/express:${BUILD_NUMBER}"
     }
     stages {
+         stage("Cleanup Workspace"){
+            steps {
+                cleanWs()
+            }
+
+        }
         stage('Build') {
             steps {
                 sh 'mvn -B -DskipTests clean package'
