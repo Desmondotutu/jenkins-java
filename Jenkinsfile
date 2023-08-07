@@ -6,30 +6,24 @@ pipeline {
     DOCKER_IMAGE = "desmondo1/express:${BUILD_NUMBER}"
     }
     stages {
-         stage("Cleanup Workspace"){
-            steps {
-                cleanWs()
-            }
-
-        }
-        stage('Build') {
+        stage('Code Build') {
             steps {
                 sh 'mvn -B -DskipTests clean package'
             }
         }
-        stage('Test') { 
+        stage('Unit Test') { 
             steps {
                 sh 'mvn test' 
             }
         }
-      stage('Dependency Check') {
+      stage('OWASP Dependency Check') {
 
       steps {
         sh "${DependencyCheck}/bin/dependency-check.sh --scan . dependencyCheckPublisher pattern: '**/dependency-check-report.xml'"
       }
     }
     
-    stage('Static Code Analysis') {
+    stage('Sonarqube Static Code Analysis') {
 
       steps {
         withSonarQubeEnv('SonarqubeServer10') {
@@ -44,14 +38,14 @@ pipeline {
         }
       }
     }
-     stage('Scan Docker Image') {
+     stage('Trivy Scan Docker Image') {
         steps {
          script{
            sh "trivy image ${DOCKER_IMAGE}"
             }
         }
         }
-     stage('Push Docker Image') {
+     stage('Push Docker Image to Registry') {
       steps {
            script{
              withDockerRegistry(credentialsId: 'dockerHubCredentials'){
