@@ -48,7 +48,7 @@ pipeline {
      stage('Push Docker Image to Registry') {
       steps {
            script{
-             withDockerRegistry(credentialsId: 'dockerHubCredentials'){
+             withDockerRegistry(credentialsId: 'dockerhub-creds'){
              sh "docker push ${DOCKER_IMAGE}"
               }
           }
