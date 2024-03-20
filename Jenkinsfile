@@ -40,14 +40,13 @@ pipeline {
         stage('Deploy to Azure Artifacts') {
             steps {
                 // Configure Azure credentials
-                withCredentials([string(credentialsId: 'azure_credentials', variable: 'AZURE_ARTIFACTS_CREDENTIALS')]) {
+                withCredentials(credentialsId: 'azure_credentials') {
                     // Define artifact details
                     def artifactName = 'deploy'
                     def artifactVersion = env.BUILD_ID // Use build ID as version (optional)
 
                     // Upload artifacts with Azure Artifact Manager plugin
                     azureArtifactManager publishArtifacts(
-                        credentialsId: '$AZURE_ARTIFACTS_CREDENTIALS',
                         AZURE_ARTIFACTS_URL = 'https://pkgs.dev.azure.com/dwangki/1f176342-eab7-4ed0-a462-d68bfc589b1c/_packaging/deploy/maven/v1',
                         feedName: 'your_feed_name',
                         artifactName: artifactName,
