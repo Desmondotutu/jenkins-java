@@ -70,6 +70,30 @@
 
         </plugins>
     </build>
+    <repositories>
+         <repository>
+           <id>dwangki</id>
+           <url>https://pkgs.dev.azure.com/dwangki/_packaging/dwangki/maven/v1</url>
+           <releases>
+             <enabled>true</enabled>
+           </releases>
+           <snapshots>
+             <enabled>true</enabled>
+           </snapshots>
+         </repository>
+    </repositories>
 
+    <distributionManagement>
+          <repository>
+           <id>dwangki</id>
+           <url>https://pkgs.dev.azure.com/dwangki/_packaging/dwangki/maven/v1</url>
+           <releases>
+             <enabled>true</enabled>
+           </releases>
+           <snapshots>
+             <enabled>true</enabled>
+           </snapshots>
+         </repository>
+    </distributionManagement>
 
 </project>
