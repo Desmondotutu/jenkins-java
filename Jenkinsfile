@@ -36,6 +36,14 @@ pipeline {
            waitForQualityGate abortPipeline: true, credentialsId: 'sonar'
            }
       }
+
+         stage('Deploy Artifact') {
+      steps {
+        script {
+            sh 'mvn deploy'
+        }
+      }
+    }
      
     stage('Build Docker Image') {
       steps {
