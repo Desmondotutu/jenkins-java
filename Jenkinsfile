@@ -4,8 +4,6 @@ pipeline {
     mvn = tool 'maven3'
     DependencyCheck = tool 'DP-Check'
     DOCKER_IMAGE = "desmondo1/express:${BUILD_NUMBER}"
-    AZURE_ARTIFACTS_URL = 'https://pkgs.dev.azure.com/dwangki/1f176342-eab7-4ed0-a462-d68bfc589b1c/_packaging/deploy/maven/v1'
-    AZURE_ARTIFACTS_CREDENTIALS_ID = 'azure-credentials'
     }
     stages {
         stage('Code Build') {
@@ -41,22 +39,21 @@ pipeline {
 
         stage('Deploy to Azure Artifacts') {
             steps {
-                script {
-                    withCredentials([usernamePassword(credentialsId: "${AZURE_ARTIFACTS_CREDENTIALS_ID}", usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-                        sh """
-                        mvn deploy:deploy-file \
-                            -DgroupId=com.dessi \
-                            -DartifactId=my-artifact \
-                            -Dversion=1.0.0 \
-                            -Dpackaging=jar \
-                            -Dfile=my-artifact.jar \
-                            -DrepositoryId=azure-artifacts \
-                            -Durl=${AZURE_ARTIFACTS_URL} \
-                            -DrepositoryUrl=${AZURE_ARTIFACTS_URL} \
-                            -DrepositoryUsername='dwangki' \
-                            -DrepositoryPassword=${AZURE_ARTIFACTS_CREDENTIALS_ID}
-                        """
-                    }
+                // Configure Azure credentials
+                withCredentials([string(credentialsId: 'azure_credentials', variable: 'AZURE_ARTIFACTS_CREDENTIALS')]) {
+                    // Define artifact details
+                    def artifactName = 'deploy'
+                    def artifactVersion = env.BUILD_ID // Use build ID as version (optional)
+
+                    // Upload artifacts with Azure Artifact Manager plugin
+                    azureArtifactManager publishArtifacts(
+                        credentialsId: '$AZURE_ARTIFACTS_CREDENTIALS',
+                        AZURE_ARTIFACTS_URL = 'https://pkgs.dev.azure.com/dwangki/1f176342-eab7-4ed0-a462-d68bfc589b1c/_packaging/deploy/maven/v1',
+                        feedName: 'your_feed_name',
+                        artifactName: artifactName,
+                        artifactVersion: artifactVersion,
+                        artifacts: 'target/*.jar'
+                    )
                 }
             }
         }
